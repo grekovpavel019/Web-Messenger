@@ -1,0 +1,157 @@
+:root {
+    --primary: #4a76a8;
+    --primary-hover: #5b88bd;
+
+    --background: #edeef0;
+    --surface: #ffffff;
+    --border: #dce1e6;
+
+    --text-primary: #2a2a2a;
+    --text-secondary: #656565;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    background-color: var(--background);
+    color: var(--text-primary)
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    
+    font-weight: normal;
+    font-size: inherit;
+}
+
+input {
+    padding: 0;
+    
+}
+
+.auth {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CARD */
+.auth__card {
+    width: 320px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
+    padding: 2rem;
+
+    background-color: var(--surface);
+    border: 3px solid var(--border);
+    border-radius: 10px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* TITLE */
+.auth__title {
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+/* FORM */
+.auth__form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+/* LABEL */
+.auth__block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.auth__input {
+    padding: 0.8rem;
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    font-size: 1rem;
+
+    outline: none;
+}
+
+.auth__checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.auth__input:focus {
+    border-color: var(--primary);
+}
+
+/* BUTTON */
+.auth__button {
+    margin-top: 0.5rem;
+
+    padding: 0.8rem;
+
+    border: none;
+    border-radius: 6px;
+
+    background: var(--primary);
+    color: white;
+
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.auth__button:hover {
+    background: var(--primary-hover);
+}
+
+.auth__button:disabled {
+    background: #a0a0a0;
+    /* cursor: not-allowed; */
+    opacity: 0.7;
+}
+
+/* LINK */
+.auth__link {
+    text-align: center;
+    font-size: 0.9rem;
+
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.auth__link:hover {
+    text-decoration: underline;
+}
