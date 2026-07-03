@@ -14,14 +14,14 @@
                 Вход
             </h1>
 
-            <form action="" class="auth__form">
-                <label for="">Логин</label>
-                <input type="text" class="auth__input">
+            <form action="" class="auth__form" novalidate>
+                <label for="log-login">Логин</label>
+                <input id="log-login" type="text" class="auth__input" required>
 
-                <label for="">Пароль</label>
-                <input type="text" class="auth__input">
+                <label for="log-password">Пароль</label>
+                <input id="log-password" type="password" class="auth__input" required>
 
-                <button class="auth__button" disabled>
+                <button id="log-button" class="auth__button">
                     Войти
                 </button>
             </form>
@@ -29,5 +29,8 @@
             <a href="/public/register.html" class="auth__link">Еще нет аккаунта?</a>
         </div>
     </main>
+
+    <script src="js/login.js" type="module"></script>
+    <script src="js/auth/validation.js" type="module"></script>
 </body>
 </html>

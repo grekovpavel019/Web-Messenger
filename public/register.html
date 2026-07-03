@@ -17,18 +17,18 @@
             <form action="" class="auth__form">
 
                 <div class="auth__block">
-                    <label for="">Логин</label>
-                    <input type="text" class="auth__input">
+                    <label for="reg-login">Логин</label>
+                    <input id="reg-login" type="text" class="auth__input">
                 </div>
 
                 <div class="auth__block">
-                    <label for="">Пароль</label>
-                    <input type="text" class="auth__input">
+                    <label for="reg-password">Пароль</label>
+                    <input id="reg-password" type="password" class="auth__input">
                 </div>
 
                 <div class="auth__block">
-                    <label for="">Подтвердите пароль</label>
-                    <input type="text" class="auth__input">
+                    <label for="reg-password-confirm">Подтвердите пароль</label>
+                    <input id="reg-password-confirm" type="password" class="auth__input">
                 </div>
 
                 <button class="auth__button">
@@ -36,14 +36,17 @@
                 </button>
 
                 <div class="auth__checkbox">
-                    <label for="">Политика конфиденсальности</label>
-                    <input type="checkbox">
+                    <label for="reg-priv-pol">Политика конфиденсальности</label>
+                    <input id="reg-priv-pol" type="checkbox">
                 </div>
             </form>
 
-            <a href="/public/login.html" class="auth__link">Уже есть аккаунт!</a>
+            <a href="/public/login.html" class="auth__link">Уже есть аккаунт</a>
 
         </div>
     </main>
+
+    <script src="js/register.js" type="module"></script>
+    <script src="js/auth/validation.js" type="module"></script>
 </body>
 </html>
