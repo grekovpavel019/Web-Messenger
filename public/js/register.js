@@ -1,4 +1,4 @@
-import { isEmpty, minLength, passwordsMatch } from "./auth/validation.js";
+import { checkEmail, isEmpty, minLength, passwordsMatch } from "./auth/validation.js";
 
 const registerForm = document.querySelector("form");
 
@@ -6,12 +6,23 @@ registerForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const loginField = document.querySelector("#reg-login");
+    const emailField = document.querySelector("#reg-email");
     const passwordField = document.querySelector("#reg-password");
     const passwordConfirmField = document.querySelector("#reg-password-confirm");
     const privPol = document.querySelector("#reg-priv-pol");
 
-    if (isEmpty(loginField.value) || isEmpty(passwordField.value) || isEmpty(passwordConfirmField.value)) {
+    if (
+        isEmpty(loginField.value) || 
+        isEmpty(passwordField.value) || 
+        isEmpty(passwordConfirmField.value) || 
+        isEmpty(emailField.value)
+    ) {
         alert("Все поля должны быть заполнены");
+        return;
+    }
+
+    if (!checkEmail(emailField.value)) {
+        alert("Email неправильный")
         return;
     }
 

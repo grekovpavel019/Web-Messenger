@@ -14,39 +14,43 @@
                 Регистрация
             </h1>
 
-            <form action="" class="auth__form">
+            <form action="" class="auth__form" novalidate>
 
                 <div class="auth__block">
                     <label for="reg-login">Логин</label>
-                    <input id="reg-login" type="text" class="auth__input">
+                    <input id="reg-login" type="text" class="auth__input" required>
+                </div>
+                
+                <div class="auth__block">
+                    <label for="reg-email">Email</label>
+                    <input id="reg-email" type="email" class="auth__input" required>
                 </div>
 
                 <div class="auth__block">
                     <label for="reg-password">Пароль</label>
-                    <input id="reg-password" type="password" class="auth__input">
+                    <input id="reg-password" type="password" class="auth__input" required>
                 </div>
 
                 <div class="auth__block">
                     <label for="reg-password-confirm">Подтвердите пароль</label>
-                    <input id="reg-password-confirm" type="password" class="auth__input">
+                    <input id="reg-password-confirm" type="password" class="auth__input" required>
                 </div>
 
-                <button class="auth__button">
+                <button type="submit" class="auth__button">
                     Создать аккаунт
                 </button>
 
                 <div class="auth__checkbox">
                     <label for="reg-priv-pol">Политика конфиденсальности</label>
-                    <input id="reg-priv-pol" type="checkbox">
+                    <input id="reg-priv-pol" type="checkbox" required>
                 </div>
             </form>
 
-            <a href="/public/login.html" class="auth__link">Уже есть аккаунт</a>
+            <a href="/login.html" class="auth__link">Уже есть аккаунт</a>
 
         </div>
     </main>
 
     <script src="js/register.js" type="module"></script>
-    <script src="js/auth/validation.js" type="module"></script>
 </body>
 </html>

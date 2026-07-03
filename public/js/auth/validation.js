@@ -9,3 +9,7 @@ export function minLength(value, len) {
 export function passwordsMatch(p1, p2) {
     return p1 === p2;
 }
+
+export function checkEmail(value) {
+    return value.includes("@");
+}
