@@ -71,7 +71,6 @@ app.post("/api/register", async (req, res) => {
         }
     });
 
-    console.log(users);
 });
 
 app.post("/api/login", async (req, res) => {
@@ -107,6 +106,20 @@ app.post("/api/login", async (req, res) => {
         }
     });
 
+});
+
+app.post("/api/logout", (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({
+                message: "Ошибка выхода"
+            });
+        }
+
+        res.json({
+            message: "Выход успешно"
+        });
+    })
 });
 
 app.get("/chat.html", (req, res) => {
