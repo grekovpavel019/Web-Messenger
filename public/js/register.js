@@ -2,7 +2,7 @@ import { checkEmail, isEmpty, minLength, passwordsMatch } from "./auth/validatio
 
 const registerForm = document.querySelector("form");
 
-registerForm.addEventListener("submit", (event) => {
+registerForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const loginField = document.querySelector("#reg-login");
@@ -39,5 +39,27 @@ registerForm.addEventListener("submit", (event) => {
     if (!privPol.checked) {
         alert("Согласитесь с политикой конфиденсальности");
         return;
+    }
+
+    const response = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            login: loginField.value,
+            email: emailField.value,
+            password: passwordField.value
+        })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        
+        window.location.href = "/chat.html";
+    } else {
+        alert(data.message);
     }
 });

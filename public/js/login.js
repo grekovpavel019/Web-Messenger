@@ -1,9 +1,8 @@
-// import { showError } from "./auth/auth-form";
 import { isEmpty, passwordsMatch, minLength } from "./auth/validation.js";
 
 const loginForm = document.querySelector("form");
 
-loginForm.addEventListener("submit", (event) => {
+loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     
     const loginField = document.querySelector("#log-login");
@@ -12,7 +11,28 @@ loginForm.addEventListener("submit", (event) => {
     if (isEmpty(loginField.value) || isEmpty(passwordField.value)) {
         alert("Все поля должны быть заполнены");
         return;
-    } 
+    }
+
+    const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            login: loginField.value,
+            password: passwordField.value
+        })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        window.location.href = "/chat.html"
+    } else {
+        alert(data.message);
+    }
 
 });
 
