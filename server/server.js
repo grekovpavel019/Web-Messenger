@@ -105,7 +105,6 @@ app.post("/api/login", async (req, res) => {
             login: user.login
         }
     });
-
 });
 
 app.post("/api/logout", (req, res) => {
@@ -122,9 +121,25 @@ app.post("/api/logout", (req, res) => {
     })
 });
 
-app.get("/chat.html", (req, res) => {
+app.get("/login", (req, res) => {
+    if (req.session.user) {
+        return res.redirect("/chat");
+    }
+
+    res.sendFile(path.join(publicPath, "login.html"));
+});
+
+app.get("/register", (req, res) => {
+    if (req.session.user) {
+        return res.redirect("/chat");
+    }
+
+    res.sendFile(path.join(publicPath, "register.html"))
+}); 
+
+app.get("/chat", (req, res) => {
     if (!req.session.user) {
-        return res.redirect("/login.html");
+        return res.redirect("/login");
     }
 
     res.sendFile(path.join(publicPath, "chat.html"));
