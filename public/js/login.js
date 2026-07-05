@@ -1,4 +1,4 @@
-import { isEmpty, passwordsMatch, minLength } from "./auth/validation.js";
+import { isEmpty, passwordsMatch, minLength } from "./handlers/validation.js";
 
 const loginForm = document.querySelector("form");
 
@@ -29,7 +29,7 @@ loginForm.addEventListener("submit", async (event) => {
     if (response.ok) {
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        window.location.href = "/chat.html"
+        window.location.href = "/chat"
     } else {
         alert(data.message);
     }

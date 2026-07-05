@@ -1,50 +1,100 @@
-// const user = localStorage.getItem("user");
-
-// if (!user) {
-//     window.location.href = "/login.html";
-// }
-
-const chatUsers = document.querySelectorAll(".user__item");
+import createMessage from "./handlers/chatHandlers.js";
 
 const chatMessages = document.querySelector(".chat__messages");
-
 const chatForm = document.querySelector(".chat__form");
 const chatInput = document.querySelector(".chat__input");
+const logoutBtn = document.querySelector("#logout");
 
-chatUsers.forEach((user) => {
-    user.addEventListener("click", (event) => {
-        chatUsers.forEach(user => user.classList.remove("active"));
-        user.classList.add("active");
-    })
-});
+let currentUser;
+let ws;
 
-chatForm.addEventListener("submit", (event) => {
+async function init() {
+    await initMe();
+    await initMessages();
+
+    connectWS();
+    initEvents();
+}
+
+init();
+
+function connectWS() {
+    ws = new WebSocket("ws://localhost:3000");
+
+    ws.onopen = () => {
+        ws.send(JSON.stringify({
+            type: "auth",
+            login: currentUser.login
+        }));
+    };
+
+    ws.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+
+        createMessage(
+            message.from,
+            message.text,
+            chatMessages
+        );
+    };
+}
+
+function initEvents() {
+    chatForm.addEventListener("submit", sendMessage);
+    logoutBtn.addEventListener("click", logout);
+}
+
+function sendMessage(event) {
     event.preventDefault();
 
-    if (!chatInput.value.trim()) {
+    const text = chatInput.value.trim();
+
+    if (!text) return;
+
+    if (ws.readyState !== WebSocket.OPEN) {
         return;
     }
 
-    createMessage("Я", chatInput.value);
+    ws.send(JSON.stringify({
+        text
+    }));
+
     chatInput.value = "";
-})
-
-function createMessage(author, value) {
-    const message = document.createElement("div");
-    message.classList.add("message");
-
-    const authorBlock = document.createElement("p");
-    authorBlock.textContent = author + ":";
-    authorBlock.classList.add("message__author");
-
-    const text = document.createElement("p");
-    text.textContent = value;
-    text.classList.add("message__text");
-
-    message.appendChild(authorBlock);
-    message.appendChild(text); 
-
-    chatMessages.append(message);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+async function logout() {
+    const response = await fetch("/api/logout", {
+        method: "POST"
+    });
+
+    if (response.ok) {
+        window.location.href = "/login";
+    }
+}
+
+async function initMe() {
+    const response = await fetch("/api/me");
+
+    if (!response.ok) {
+        window.location.href = "/login";
+        return;
+    }
+
+    currentUser = await response.json();
+}
+
+async function initMessages() {
+    const response = await fetch("/api/messages");
+
+    if (!response.ok) return;
+
+    const messages = await response.json();
+
+    messages.forEach((message) => {
+        createMessage(
+            message.login,
+            message.text,
+            chatMessages
+        );
+    });
+}
