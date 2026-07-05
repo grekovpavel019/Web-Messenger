@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-
+import transporter from "./smtp.js";
 import session from "express-session";
 
 import { Pool } from "pg";
@@ -109,6 +109,8 @@ app.post("/api/login", async (req, res) => {
     });
 });
 
+
+
 app.get("/api/me", (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({
@@ -171,13 +173,43 @@ const server = app.listen(3000, () => {
 
 setupWS(server, pool);
 
-import transporter from "./smtp.js";
+app.post("/api/contact", async (req, res) => {
+    const { name, email, subject, message } = req.body;
 
-await transporter.sendMail({
-    from: "greklomabgtu@mail.ru",
-    to: "greklomabgtu@mail.ru",
-    subject: "фвыафывфываыф",
-    text: "афываыфвафыва!"
+    try {
+        await transporter.sendMail({
+            from: "greklomabgtu@mail.ru",
+            to: "greklomabgtu@mail.ru",
+            replyTo: email,
+            subject: subject,
+            text: `Новое обращение
+
+Имя: ${name}
+Email: ${email}
+
+Сообщение:
+${message}`
+        });
+
+        res.status(200).json({
+            message: "Сообщение успешно отправлено!"
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            message: "Ошибка при отправке сообщения."
+        });
+    }
 });
 
-console.log("Письмо отправлено");
+// await transporter.sendMail({
+//     from: "greklomabgtu@mail.ru",
+//     to: "greklomabgtu@mail.ru",
+//     subject: `фвыфывфыв`,
+//     text: `фывфывфвы`
+//  });
+
+// console.log(`Письмо отправлено`);
+
