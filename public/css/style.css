@@ -209,6 +209,9 @@ input {
 
     border: 2px solid var(--border);
 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .user__item {
@@ -217,17 +220,24 @@ input {
 
     border-bottom: 1px solid var(--border);
 
-    color: var(--text-secondary);
+    color: var(--surface);
+    
+    background: var(--primary-hover);
 
     transition: background .1s ease;
 }
 
-.user__item:hover {
-    background: var(--background);
+.user__logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    padding: 10px;
 }
 
-.user__item.active {
-    background: var(--background);
+.user__logout button {
+    
+    flex: 1;
 }
 
 .chat__main {
@@ -306,4 +316,8 @@ input {
     cursor: pointer;
 
     transition: 0.2s;
+}
+
+.chat__button:hover {
+    background: var(--primary-hover);
 }

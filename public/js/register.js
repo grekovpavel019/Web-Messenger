@@ -1,4 +1,4 @@
-import { checkEmail, isEmpty, minLength, passwordsMatch } from "./auth/validation.js";
+import { checkEmail, isEmpty, minLength, passwordsMatch } from "./handlers/validation.js";
 
 const registerForm = document.querySelector("form");
 
@@ -58,7 +58,7 @@ registerForm.addEventListener("submit", async (event) => {
     if (response.ok) {
         localStorage.setItem("user", JSON.stringify(data.user));
         
-        window.location.href = "/chat.html";
+        window.location.href = "/login";
     } else {
         alert(data.message);
     }
