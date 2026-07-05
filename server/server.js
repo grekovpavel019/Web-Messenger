@@ -13,7 +13,7 @@ const pool = new Pool({
     user: "postgres",
     host: "localhost",
     database: "messenger",
-    password: "admin",
+    password: "123",
     port: 5432
 });
 
@@ -148,3 +148,15 @@ app.get("/chat", (req, res) => {
 app.listen(3000, () => {
     console.log("Сервер работает");
 })
+
+
+import transporter from "./smtp.js";
+
+await transporter.sendMail({
+    from: "greklomabgtu@mail.ru",
+    to: "greklomabgtu@mail.ru",
+    subject: "фвыафывфываыф",
+    text: "афываыфвафыва!"
+});
+
+console.log("Письмо отправлено");
