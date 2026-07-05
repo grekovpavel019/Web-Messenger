@@ -150,13 +150,41 @@ app.listen(3000, () => {
 })
 
 
+
+// await transporter.sendMail({
+//     from: "greklomabgtu@mail.ru",
+//     to: "greklomabgtu@mail.ru",
+//     subject: `фвыфывфыв`,
+//     text: `фывфывфвы`
+//  });
+
+// console.log(`Письмо отправлено`);
+
 import transporter from "./smtp.js";
+app.post("/api/contact", async (req, res) => {
+    const { name, email, subject, message } = req.body;
+    try {
+        await transporter.sendMail({
+            from: "greklomabgtu@mail.ru", 
+            to: "greklomabgtu@mail.ru", 
+            replyTo: email, 
+            subject: subject,
+            text:
+                `Новое обращение
+                Имя: ${name}
+                Email: ${email}
+                Сообщение:
+                ${message}`
+        });
+        res.status(200).json({
 
-await transporter.sendMail({
-    from: "greklomabgtu@mail.ru",
-    to: "greklomabgtu@mail.ru",
-    subject: "фвыафывфываыф",
-    text: "афываыфвафыва!"
+            message: "Сообщение отправлено!"
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+
+            message: "Ошибка при отправке письма"
+        });
+    }
 });
-
-console.log("Письмо отправлено");
