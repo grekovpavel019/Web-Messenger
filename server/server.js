@@ -5,6 +5,8 @@ import session from "express-session";
 
 import { Pool } from "pg";
 
+import { setupWS } from "./ws.js";
+
 const app = express();
 
 const publicPath = path.resolve("../public");
@@ -107,6 +109,16 @@ app.post("/api/login", async (req, res) => {
     });
 });
 
+app.get("/api/me", (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({
+            message: "Не авторизован"
+        });
+    }
+
+    res.json(req.session.user);
+});
+
 app.post("/api/logout", (req, res) => {
     req.session.destroy((err) => {
         if (err) {
@@ -143,8 +155,18 @@ app.get("/chat", (req, res) => {
     }
 
     res.sendFile(path.join(publicPath, "chat.html"));
-})
+});
 
-app.listen(3000, () => {
+app.get("/api/messages", async (req, res) => {
+    const result = await pool.query(
+        "SELECT login, text FROM messages ORDER BY id ASC LIMIT 100"
+    )
+
+    res.json(result.rows);
+});
+
+const server = app.listen(3000, () => {
     console.log("Сервер работает");
-})
+});
+
+setupWS(server, pool);
