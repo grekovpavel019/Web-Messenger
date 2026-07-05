@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main class="help">
+        <div class="help__card">
+            <h1 class="help__title">
+                Оставьте отзыва на почту
+            </h1>
+
+            <form action="POST" class="help__form" novalidate>
+                <label for="help-login">Почта</label>
+                <input id="help-login" type="email" class="help__input" required>
+
+                <label for="help-password">Пароль</label>
+                <input id="help-password" type="password" class="help__input" required>
+
+                <button type="submit" id="help-button" class="help__button">
+                    Войти
+                </button>
+            </form>
+
+        </div>
+    </main>
+
+    <script src="js/contacts.js" type="module"></script>
+</body>
+</html>
