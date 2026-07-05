@@ -15,7 +15,7 @@ const pool = new Pool({
     user: "postgres",
     host: "localhost",
     database: "messenger",
-    password: "admin",
+    password: "123",
     port: 5432
 });
 
@@ -170,3 +170,14 @@ const server = app.listen(3000, () => {
 });
 
 setupWS(server, pool);
+
+import transporter from "./smtp.js";
+
+await transporter.sendMail({
+    from: "greklomabgtu@mail.ru",
+    to: "greklomabgtu@mail.ru",
+    subject: "фвыафывфываыф",
+    text: "афываыфвафыва!"
+});
+
+console.log("Письмо отправлено");
