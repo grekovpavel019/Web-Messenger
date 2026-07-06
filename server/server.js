@@ -13,26 +13,26 @@ const publicPath = path.resolve("../public");
 
 const pool = new Pool({
     user: "postgres",
-    host: "localhost",
+    host: "db",
     database: "messenger",
     password: "123",
     port: 5432
 });
 
-const result = await pool.query("SELECT * FROM users");
-console.log(result.rows);
-
+// const result = await pool.query("SELECT * FROM users");
+// console.log(result.rows);
+app.use(express.json());
 app.use(session({
     secret: "super-secret-key",
     resave: false,
-    saveUninitialized: false,
+   saveUninitialized: false,
     cookie: {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
-app.use(express.static(publicPath));
-app.use(express.json());
+
+//app.use(express.static(publicPath));
 
 app.post("/api/register", async (req, res) => {
     if (req.session.user) {
@@ -135,28 +135,39 @@ app.post("/api/logout", (req, res) => {
     })
 });
 
-app.get("/login", (req, res) => {
+// app.get("/login", (req, res) => {
+//     if (req.session.user) {
+//         return res.redirect("/chat");
+//     }
+
+//     res.sendFile(path.join(publicPath, "login.html"));
+// });
+
+// app.get("/register", (req, res) => {
+//     if (req.session.user) {
+//         return res.redirect("/chat");
+//     }
+
+//     res.sendFile(path.join(publicPath, "register.html"))
+// }); 
+
+// app.get("/chat", (req, res) => {
+//     if (!req.session.user) {
+//         return res.redirect("/login");
+//     }
+
+//     res.sendFile(path.join(publicPath, "chat.html"));
+// });
+
+app.get("/api/guest_check", (req, res) => {
+    // console.log("=== GUEST CHECK ===");
+    // console.log("Сессия:", req.session);
+    // console.log("Пользователь в сессии:", req.session ? req.session.user : "нет сессии");
+
     if (req.session.user) {
-        return res.redirect("/chat");
+        return res.status(403).end(); 
     }
-
-    res.sendFile(path.join(publicPath, "login.html"));
-});
-
-app.get("/register", (req, res) => {
-    if (req.session.user) {
-        return res.redirect("/chat");
-    }
-
-    res.sendFile(path.join(publicPath, "register.html"))
-}); 
-
-app.get("/chat", (req, res) => {
-    if (!req.session.user) {
-        return res.redirect("/login");
-    }
-
-    res.sendFile(path.join(publicPath, "chat.html"));
+    res.status(200).end(); 
 });
 
 app.get("/api/messages", async (req, res) => {
