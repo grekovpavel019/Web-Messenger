@@ -15,7 +15,7 @@ const pool = new Pool({
     user: "postgres",
     host: "localhost",
     database: "messenger",
-    password: "123",
+    password: "admin",
     port: 5432
 });
 
@@ -135,29 +135,29 @@ app.post("/api/logout", (req, res) => {
     })
 });
 
-app.get("/login", (req, res) => {
-    if (req.session.user) {
-        return res.redirect("/chat");
-    }
+// app.get("/login", (req, res) => {
+//     if (req.session.user) {
+//         return res.redirect("/chat");
+//     }
 
-    res.sendFile(path.join(publicPath, "login.html"));
-});
+//     res.sendFile(path.join(publicPath, "login.html"));
+// });
 
-app.get("/register", (req, res) => {
-    if (req.session.user) {
-        return res.redirect("/chat");
-    }
+// app.get("/register", (req, res) => {
+//     if (req.session.user) {
+//         return res.redirect("/chat");
+//     }
 
-    res.sendFile(path.join(publicPath, "register.html"))
-}); 
+//     res.sendFile(path.join(publicPath, "register.html"))
+// }); 
 
-app.get("/chat", (req, res) => {
-    if (!req.session.user) {
-        return res.redirect("/login");
-    }
+// app.get("/chat", (req, res) => {
+//     if (!req.session.user) {
+//         return res.redirect("/login");
+//     }
 
-    res.sendFile(path.join(publicPath, "chat.html"));
-});
+//     res.sendFile(path.join(publicPath, "chat.html"));
+// });
 
 app.get("/api/messages", async (req, res) => {
     const result = await pool.query(
