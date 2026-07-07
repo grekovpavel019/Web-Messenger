@@ -9,30 +9,30 @@ import { setupWS } from "./ws.js";
 
 const app = express();
 
-const publicPath = path.resolve("../public");
+const publicPath = path.resolve("./public");
 
 const pool = new Pool({
     user: "postgres",
-    host: "db",
+    host: "postgres",
     database: "messenger",
     password: "admin",
     port: 5432
 });
 
-// const result = await pool.query("SELECT * FROM users");
-// console.log(result.rows);
-app.use(express.json());
+const result = await pool.query("SELECT * FROM users");
+console.log(result.rows);
+
 app.use(session({
     secret: "super-secret-key",
     resave: false,
-   saveUninitialized: false,
+    saveUninitialized: false,
     cookie: {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
-
-//app.use(express.static(publicPath));
+// app.use(express.static(publicPath));
+app.use(express.json());
 
 app.post("/api/register", async (req, res) => {
     if (req.session.user) {
@@ -109,8 +109,6 @@ app.post("/api/login", async (req, res) => {
     });
 });
 
-
-
 app.get("/api/me", (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({
@@ -135,12 +133,20 @@ app.post("/api/logout", (req, res) => {
     })
 });
 
+// app.get("/", (req, res) => {
+//     if (req.session.user) {
+//         return res.redirect("/chat");
+//     }
+
+//     res.redirect("/login");
+// });
 // app.get("/login", (req, res) => {
 //     if (req.session.user) {
 //         return res.redirect("/chat");
 //     }
 
 //     res.sendFile(path.join(publicPath, "login.html"));
+//     // res.sendStatus(200);
 // });
 
 // app.get("/register", (req, res) => {
@@ -148,6 +154,7 @@ app.post("/api/logout", (req, res) => {
 //         return res.redirect("/chat");
 //     }
 
+//     // res.sendStatus(200);
 //     res.sendFile(path.join(publicPath, "register.html"))
 // }); 
 
@@ -156,27 +163,22 @@ app.post("/api/logout", (req, res) => {
 //         return res.redirect("/login");
 //     }
 
+//     // res.sendStatus(200);
 //     res.sendFile(path.join(publicPath, "chat.html"));
 // });
 
-app.get("/api/guest_check", (req, res) => {
-    if (req.session.user) {
-        return res.status(403).end(); 
-    }
-    res.status(200).end(); 
-});
-
-
-app.get("/api/user_check", (req, res) => {
-    // Если юзер залогинен — отдаем 200 (Nginx пустит в чат)
-    if (req.session && req.session.user) {
-        return res.status(200).end();
-    }
-    // Если юзер НЕ залогинен — отдаем 401 (Nginx перенаправит на /login)
-    res.status(401).end();
-});
+// app.get("/contacts", (req, res) => {
+//     res.sendFile(path.join(publicPath, "contacts.html"));
+// });
 
 app.get("/api/messages", async (req, res) => {
+
+    if (!req.session.user) {
+        return res.status(401).json({
+            message: "Не авторизован"
+        });
+    }
+
     const result = await pool.query(
         "SELECT login, text FROM messages ORDER BY id ASC LIMIT 100"
     )
