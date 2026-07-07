@@ -160,10 +160,6 @@ app.post("/api/logout", (req, res) => {
 // });
 
 app.get("/api/guest_check", (req, res) => {
-    // console.log("=== GUEST CHECK ===");
-    // console.log("Сессия:", req.session);
-    // console.log("Пользователь в сессии:", req.session ? req.session.user : "нет сессии");
-
     if (req.session.user) {
         return res.status(403).end(); 
     }
