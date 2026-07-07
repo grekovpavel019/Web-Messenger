@@ -33,7 +33,15 @@ app.use(session({
 }));
 // app.use(express.static(publicPath));
 app.use(express.json());
+app.get("/api/guest_check", (req, res) => {
+  if (req.session.user) return res.sendStatus(403);
+  return res.sendStatus(204);
+});
 
+app.get("/api/user_check", (req, res) => {
+  if (!req.session.user) return res.sendStatus(401);
+  return res.sendStatus(204);
+});
 app.post("/api/register", async (req, res) => {
     if (req.session.user) {
         return res.status(403).json({
