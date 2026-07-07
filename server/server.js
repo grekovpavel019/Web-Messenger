@@ -31,6 +31,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
+// app.use(express.static(publicPath));
 app.use(express.json());
 
 app.post("/api/register", async (req, res) => {
@@ -108,8 +109,6 @@ app.post("/api/login", async (req, res) => {
     });
 });
 
-
-
 app.get("/api/me", (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({
@@ -134,12 +133,21 @@ app.post("/api/logout", (req, res) => {
     })
 });
 
+app.get("/", (req, res) => {
+    if (req.session.user) {
+        return res.redirect("/chat");
+    }
+
+    res.redirect("/login");
+});
+
 app.get("/login", (req, res) => {
     if (req.session.user) {
         return res.redirect("/chat");
     }
 
     res.sendFile(path.join(publicPath, "login.html"));
+    // res.sendStatus(200);
 });
 
 app.get("/register", (req, res) => {
@@ -147,6 +155,7 @@ app.get("/register", (req, res) => {
         return res.redirect("/chat");
     }
 
+    // res.sendStatus(200);
     res.sendFile(path.join(publicPath, "register.html"))
 }); 
 
@@ -155,6 +164,7 @@ app.get("/chat", (req, res) => {
         return res.redirect("/login");
     }
 
+    // res.sendStatus(200);
     res.sendFile(path.join(publicPath, "chat.html"));
 });
 
@@ -213,13 +223,3 @@ ${message}`
         });
     }
 });
-
-// await transporter.sendMail({
-//     from: "greklomabgtu@mail.ru",
-//     to: "greklomabgtu@mail.ru",
-//     subject: `фвыфывфыв`,
-//     text: `фывфывфвы`
-//  });
-
-// console.log(`Письмо отправлено`);
-

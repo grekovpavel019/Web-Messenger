@@ -21,7 +21,7 @@ async function init() {
 init();
 
 function connectWS() {
-    ws = new WebSocket("ws://localhost");
+    ws = new WebSocket("ws://localhost:3000");
 
     ws.onopen = () => {
         ws.send(JSON.stringify({

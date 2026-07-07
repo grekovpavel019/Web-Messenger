@@ -1,15 +1,11 @@
 services:
-
   postgres:
     image: postgres:15
     container_name: messenger_db
-    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: messenger
-    ports:
-      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -18,11 +14,8 @@ services:
     build:
       context: ./server
     container_name: messenger_server
-    restart: always
     volumes:
-      - ./public:/app/public
-    ports:
-      - "3000:3000"
+    - ./public:/app/public
     depends_on:
       - postgres
 
@@ -37,7 +30,5 @@ services:
       - ./public:/usr/share/nginx/html
     depends_on:
       - server
-
-
 volumes:
   pgdata:
