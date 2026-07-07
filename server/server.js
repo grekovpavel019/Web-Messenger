@@ -13,7 +13,7 @@ const publicPath = path.resolve("./public");
 
 const pool = new Pool({
     user: "postgres",
-    host: "postgres",
+    host: "db",
     database: "messenger",
     password: "admin",
     port: 5432
