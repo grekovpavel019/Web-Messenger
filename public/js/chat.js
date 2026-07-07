@@ -64,6 +64,8 @@ function sendMessage(event) {
     }));
 
     chatInput.value = "";
+
+    chatInput.focus();
 }
 
 async function logout() {
