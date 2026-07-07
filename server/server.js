@@ -13,26 +13,26 @@ const publicPath = path.resolve("../public");
 
 const pool = new Pool({
     user: "postgres",
-    host: "localhost",
+    host: "db",
     database: "messenger",
     password: "admin",
     port: 5432
 });
 
-const result = await pool.query("SELECT * FROM users");
-console.log(result.rows);
-
+// const result = await pool.query("SELECT * FROM users");
+// console.log(result.rows);
+app.use(express.json());
 app.use(session({
     secret: "super-secret-key",
     resave: false,
-    saveUninitialized: false,
+   saveUninitialized: false,
     cookie: {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
-app.use(express.static(publicPath));
-app.use(express.json());
+
+//app.use(express.static(publicPath));
 
 app.post("/api/register", async (req, res) => {
     if (req.session.user) {
@@ -159,6 +159,17 @@ app.post("/api/logout", (req, res) => {
 //     res.sendFile(path.join(publicPath, "chat.html"));
 // });
 
+app.get("/api/guest_check", (req, res) => {
+    // console.log("=== GUEST CHECK ===");
+    // console.log("Сессия:", req.session);
+    // console.log("Пользователь в сессии:", req.session ? req.session.user : "нет сессии");
+
+    if (req.session.user) {
+        return res.status(403).end(); 
+    }
+    res.status(200).end(); 
+});
+
 app.get("/api/messages", async (req, res) => {
     const result = await pool.query(
         "SELECT login, text FROM messages ORDER BY id ASC LIMIT 100"
@@ -203,13 +214,3 @@ ${message}`
         });
     }
 });
-
-// await transporter.sendMail({
-//     from: "greklomabgtu@mail.ru",
-//     to: "greklomabgtu@mail.ru",
-//     subject: `фвыфывфыв`,
-//     text: `фывфывфвы`
-//  });
-
-// console.log(`Письмо отправлено`);
-
