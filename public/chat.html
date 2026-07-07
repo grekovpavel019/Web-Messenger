@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Чат</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -15,14 +15,12 @@
                 <h1 class="chat__title">ВКонтакте</h1>
             </header>
             
-            <aside id="chat__users" class="chat__users">
-                <div class="user__list">
-                    <div class="user__item">
-                        <h1>Общая группа</h1>
-                    </div>
+            <aside id="chat__actions" class="chat__actions">
+                <div class="action__list">
+                    <button class="action__help chat__button"><a href="/contacts">Написать отзыв</a></button>
                 </div>
 
-                <div class="user__logout">
+                <div class="action__logout">
                     <button id="logout" class="chat__button">Выйти</button>
                 </div>
             </aside>
@@ -31,14 +29,14 @@
                 <div class="chat__messages">
                 </div>
                 
-                <form action="" class="chat__form">
+                <form class="chat__form">
                     <input type="text" class="chat__input">
-                    <button class="chat__button">Send</button>
+                    <button class="chat__button">Send ➤</button>
                 </form>
             </main>
         </div>
     </div>
         
-    <script src="js/chat.js" type="module"></script>
+    <script src="/js/chat.js" type="module"></script>
 </body>
 </html>

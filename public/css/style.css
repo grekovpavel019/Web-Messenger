@@ -202,7 +202,7 @@ input {
     color: white;
 }
 
-.chat__users {
+.chat__actions {
     grid-area: users;
 
     background: var(--surface);
@@ -214,20 +214,48 @@ input {
     justify-content: space-between;
 }
 
-.user__item {
-    padding: 15px;
-    cursor: pointer;
+.action__list {
+    display: flex;
+    justify-content: center;
 
-    border-bottom: 1px solid var(--border);
-
-    color: var(--surface);
-    
-    background: var(--primary-hover);
-
-    transition: background .1s ease;
+    padding: 10px;
 }
 
-.user__logout {
+.action__help {
+    flex: 1;
+}
+
+.action__help a{
+    color: white;
+    text-decoration: none;
+
+    position: relative;
+}
+
+.action__help a::after {
+    content: "";
+
+    width: 0;
+    height: 1px;
+
+    position: absolute;
+    left: 0;
+    top: 100%;
+    
+    background: white;
+
+    transition: all .4s ease;
+}
+
+.chat__button:hover {
+    background-color: var(--primary-hover);
+}
+
+.chat__button a:hover::after {
+    width: 100%;
+}
+
+.action__logout {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -235,7 +263,7 @@ input {
     padding: 10px;
 }
 
-.user__logout button {
+.action__logout button {
     
     flex: 1;
 }
@@ -249,6 +277,8 @@ input {
 
     border: 2px solid var(--border);
 
+    overflow: hidden;
+
     background: var(--surface);
 }
 
@@ -257,6 +287,8 @@ input {
     flex-direction: column;
 
     padding: 0 15px;
+
+    overflow-y: auto;
 
     margin-bottom: 15px;
 }
@@ -320,4 +352,76 @@ input {
 
 #contact-message {
     resize: none;
+}
+
+@media (max-width: 1000px) {
+
+    .chat {
+        height: 100vh;
+
+        grid-template-columns: 1fr;
+        grid-template-rows: 70px auto 1fr;
+
+        grid-template-areas:
+            "header"
+            "users"
+            "main";
+    }
+
+    .chat__header {
+        padding: 1rem;
+    }
+
+    .chat__title {
+        font-size: 1.3rem;
+    }
+
+    .chat__actions {
+        flex-direction: row;
+        justify-content: space-between;
+
+        padding: 10px;
+    }
+
+    .action__list,
+    .action__logout {
+        padding: 0;
+        flex: 1;
+    }
+
+    .action__list {
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .chat__form {
+        gap: 5px;
+        padding: 5px;
+    }
+
+    .chat__input {
+        font-size: 16px;
+    }
+
+    .chat__button {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .message {
+        margin: 8px 0;
+        gap: 5px;
+
+        flex-direction: column;
+    }
+
+    .message__author {
+        font-size: 0.8rem;
+    }
+
+    .message__text {
+        font-size: 0.95rem;
+    }
 }

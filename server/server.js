@@ -9,11 +9,11 @@ import { setupWS } from "./ws.js";
 
 const app = express();
 
-const publicPath = path.resolve("../public");
+const publicPath = path.resolve("./public");
 
 const pool = new Pool({
     user: "postgres",
-    host: "localhost",
+    host: "postgres",
     database: "messenger",
     password: "admin",
     port: 5432
@@ -31,7 +31,6 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
-app.use(express.static(publicPath));
 app.use(express.json());
 
 app.post("/api/register", async (req, res) => {
@@ -135,31 +134,42 @@ app.post("/api/logout", (req, res) => {
     })
 });
 
-// app.get("/login", (req, res) => {
-//     if (req.session.user) {
-//         return res.redirect("/chat");
-//     }
+app.get("/login", (req, res) => {
+    if (req.session.user) {
+        return res.redirect("/chat");
+    }
 
-//     res.sendFile(path.join(publicPath, "login.html"));
-// });
+    res.sendFile(path.join(publicPath, "login.html"));
+});
 
-// app.get("/register", (req, res) => {
-//     if (req.session.user) {
-//         return res.redirect("/chat");
-//     }
+app.get("/register", (req, res) => {
+    if (req.session.user) {
+        return res.redirect("/chat");
+    }
 
-//     res.sendFile(path.join(publicPath, "register.html"))
-// }); 
+    res.sendFile(path.join(publicPath, "register.html"))
+}); 
 
-// app.get("/chat", (req, res) => {
-//     if (!req.session.user) {
-//         return res.redirect("/login");
-//     }
+app.get("/chat", (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
 
-//     res.sendFile(path.join(publicPath, "chat.html"));
-// });
+    res.sendFile(path.join(publicPath, "chat.html"));
+});
+
+app.get("/contacts", (req, res) => {
+    res.sendFile(path.join(publicPath, "contacts.html"));
+});
 
 app.get("/api/messages", async (req, res) => {
+
+    if (!req.session.user) {
+        return res.status(401).json({
+            message: "Не авторизован"
+        });
+    }
+
     const result = await pool.query(
         "SELECT login, text FROM messages ORDER BY id ASC LIMIT 100"
     )
