@@ -170,6 +170,16 @@ app.get("/api/guest_check", (req, res) => {
     res.status(200).end(); 
 });
 
+
+app.get("/api/user_check", (req, res) => {
+    // Если юзер залогинен — отдаем 200 (Nginx пустит в чат)
+    if (req.session && req.session.user) {
+        return res.status(200).end();
+    }
+    // Если юзер НЕ залогинен — отдаем 401 (Nginx перенаправит на /login)
+    res.status(401).end();
+});
+
 app.get("/api/messages", async (req, res) => {
     const result = await pool.query(
         "SELECT login, text FROM messages ORDER BY id ASC LIMIT 100"
