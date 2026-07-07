@@ -10,6 +10,8 @@ console.log(logoutBtn);
 let currentUser;
 let ws;
 
+// функция инит
+
 async function init() {
     await initMe();
     await initMessages();
@@ -22,7 +24,7 @@ init();
 
 function connectWS() {
     ws = new WebSocket(`ws://${location.host}`); 
-    
+
     ws.onopen = () => {
         ws.send(JSON.stringify({
             type: "auth",
