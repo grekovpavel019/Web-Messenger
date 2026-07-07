@@ -5,6 +5,8 @@ const chatForm = document.querySelector(".chat__form");
 const chatInput = document.querySelector(".chat__input");
 const logoutBtn = document.querySelector("#logout");
 
+console.log(logoutBtn);
+
 let currentUser;
 let ws;
 
@@ -64,12 +66,17 @@ function sendMessage(event) {
 
 async function logout() {
     const response = await fetch("/api/logout", {
-        method: "POST"
+        method: "POST",
+        credentials: "include"
     });
 
-    if (response.ok) {
-        window.location.href = "/login";
+    if (!response.ok) {
+        console.log("Бурмалда")
+        return;
     }
+
+    window.location.href = "/login";
+
 }
 
 async function initMe() {
