@@ -1,5 +1,9 @@
 import { checkEmail, isEmpty, minLength, passwordsMatch } from "./handlers/validation.js";
+const checkResponse = await fetch("/api/me");
 
+if (checkResponse.ok) {
+    window.location.href = "/chat";
+}
 const registerForm = document.querySelector("form");
 
 registerForm.addEventListener("submit", async (event) => {

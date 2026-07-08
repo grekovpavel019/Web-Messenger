@@ -34,13 +34,13 @@ app.use(session({
 // app.use(express.static(publicPath));
 app.use(express.json());
 app.get("/api/guest_check", (req, res) => {
-  if (req.session.user) return res.sendStatus(403);
-  return res.sendStatus(204);
+    if (req.session.user) return res.sendStatus(403);
+    return res.sendStatus(204);
 });
 
 app.get("/api/user_check", (req, res) => {
-  if (!req.session.user) return res.sendStatus(401);
-  return res.sendStatus(204);
+    if (!req.session.user) return res.sendStatus(401);
+    return res.sendStatus(204);
 });
 app.post("/api/register", async (req, res) => {
     if (req.session.user) {
@@ -141,43 +141,44 @@ app.post("/api/logout", (req, res) => {
     })
 });
 
-// app.get("/", (req, res) => {
-//     if (req.session.user) {
-//         return res.redirect("/chat");
-//     }
+app.get("/", (req, res) => {
+    if (req.session.user) {
+        return res.redirect("/chat");
+    }
 
-//     res.redirect("/login");
-// });
-// app.get("/login", (req, res) => {
-//     if (req.session.user) {
-//         return res.redirect("/chat");
-//     }
+    res.redirect("/login");
+});
 
-//     res.sendFile(path.join(publicPath, "login.html"));
-//     // res.sendStatus(200);
-// });
+app.get("/login", (req, res) => {
+    if (req.session.user) {
+        return res.redirect("/chat");
+    }
 
-// app.get("/register", (req, res) => {
-//     if (req.session.user) {
-//         return res.redirect("/chat");
-//     }
+    res.sendFile(path.join(publicPath, "login.html"));
+    // res.sendStatus(200);
+});
 
-//     // res.sendStatus(200);
-//     res.sendFile(path.join(publicPath, "register.html"))
-// }); 
+app.get("/register", (req, res) => {
+    if (req.session.user) {
+        return res.redirect("/chat");
+    }
 
-// app.get("/chat", (req, res) => {
-//     if (!req.session.user) {
-//         return res.redirect("/login");
-//     }
+    // res.sendStatus(200);
+    res.sendFile(path.join(publicPath, "register.html"))
+}); 
 
-//     // res.sendStatus(200);
-//     res.sendFile(path.join(publicPath, "chat.html"));
-// });
+app.get("/chat", (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
 
-// app.get("/contacts", (req, res) => {
-//     res.sendFile(path.join(publicPath, "contacts.html"));
-// });
+    // res.sendStatus(200);
+    res.sendFile(path.join(publicPath, "chat.html"));
+});
+
+app.get("/contacts", (req, res) => {
+    res.sendFile(path.join(publicPath, "contacts.html"));
+});
 
 app.get("/api/messages", async (req, res) => {
 

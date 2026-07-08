@@ -1,5 +1,13 @@
 import { isEmpty, passwordsMatch, minLength } from "./handlers/validation.js";
 
+const meResponse = await fetch("/api/me", {
+    credentials: "include"
+});
+
+if (meResponse.ok) {
+    window.location.replace("/chat");
+}
+
 const loginForm = document.querySelector("form");
 
 loginForm.addEventListener("submit", async (event) => {

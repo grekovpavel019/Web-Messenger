@@ -10,6 +10,8 @@ console.log(logoutBtn);
 let currentUser;
 let ws;
 
+// функция инит
+
 async function init() {
     await initMe();
     await initMessages();
@@ -62,6 +64,8 @@ function sendMessage(event) {
     }));
 
     chatInput.value = "";
+
+    chatInput.focus();
 }
 
 async function logout() {
